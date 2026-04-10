@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .box {
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: blue;
+        }
+        textarea {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .success { color: green; }
+        hr { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Home Page</h2>
+
+    <p class="success" th:if="${message}" th:text="${message}"></p>
+
+    <!-- If logged in -->
+    <div th:if="${username != null}">
+        <p>Welcome <b th:text="${username}"></b> 👋</p>
+
+        <hr/>
+        <div th:if="${feedback != null}">
+             <p><strong>Your Feedback:</strong> <span th:text="${feedback}"></span></p>
+             <p>You can edit your feedback below:</p>
+        </div>
+        <div th:if="${feedback == null}">
+             <p>You haven't submitted any feedback yet. Add it below!</p>
+        </div>
+        
+        <form th:action="@{/feedback}" method="post">
+            <input type="hidden" name="username" th:value="${username}" />
+            <textarea name="feedback" rows="4" placeholder="Enter your feedback..." th:text="${feedback}" required></textarea>
+            <button type="submit">Save Feedback</button>
+        </form>
+
+        <br/>
+        <a th:href="@{/login}">Logout</a>
+    </div>
+
+    <!-- If not logged in -->
+    <div th:if="${username == null}">
+        <p>Simple Login and Registration Project</p>
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}">Register</a>
+    </div>
+
+</div>
+</body>
+</html>
